@@ -3,76 +3,115 @@
 
 ### Learning objectives
 
-* Understand what it means to say that a function is dependent on a variable
-* Understand how to express a multivariable function
-* Understand how to express a function that is composed of another function, and why we express functions that way  
+* Learn about the definition of a function in the mathematical context.
+* Understand what it means to say that a function depends on one or more variables.
+* Understand how to express a function with several variables.
+* Understand how to express a function that is composed of another function, and why it is useful to express functions that way.
 
 ### Introduction
 
-Concepts in mathematics and in code tend to align.  Both are mechanisms to express an idea and model the world around it.  It's time we go off on a little bit of a tangent to explore how denoting functions in math aligns with denoting functions in code.  Some of these concepts may feel like review, but solidifying this foundation will provide clarity when we move on to explore other mathematical topics.
+Before, we have learned how to write functions in Python, and how functions are useful if you want to reuse written code. You also learned how to use arguments as inputs to a function, and how the value inserted as an argument changes the function outcome. 
 
-### Expressing functions
+Now, it's time to dig a little deeper and talk about the *mathematical* meaning of a function. In this lecture, it will become clear how this mathematical definition is related to the programming logic of a function. Some of these concepts may feel like review, but solidifying this foundation will provide clarity when we move on to explore other mathematical topics.
 
-Let's find a way to talk about functions in general.  We describe a function as $f(x)$.  $f(x)$ is our generic way to express a function.  We are not saying the output equals $y$ or anything else, we are just saying that the function returns an output.  For example, we can say the following:
+### Functions: an introductory example
 
-$$f(x) = 3x$$
+Let's start with an introductory example. Imagine that you're a broker and assigend with renting out apartments in a big apartment block. There are apartments of various sizes and the price depends on the number of bedrooms. 
 
-The expression above means that there is an output that equals 3 times $x$.  
+Talking more mathematically, we say that **the _price_ is a function of the _number of bedrooms_**. In mathematical terms, we generally like to express this as follows:
 
-Note this *mathematical* expression of an output varying with an input lines up nicely with expressing *programmatically* how a function varies with an input.  In programming, we simply can use an argument to show that a function varies with an input.
+$$\text{price} = f(\text{number of bedrooms})$$
+or, alternatively
+
+$$ y = f(\text{x})$$
+
+where $y$ is the price and $x$ is the number of bedrooms. This is purely naming convention, but you'll see often that 
+
+- The **_output_** (also denoted **_dependent_** or **_response_** variable) is given by $y$. the output variable (here: the price) is a variable that depends on something else.
+- The **_input_** (also denoted **_independent_** or **_explanatory_**) is given by $x$. The input variable is a variable that stands by itself, but triggers a change in the output variable (here: number of bedrooms).
+
+Now let's say the price of the apartment is set in a very simplified way, and there is a perfectly linear relationship between the apartment size and the rental price. Say that the price goes up by 500 USD/month for every bedroom an apartment has. In that case, we can express the price as follows:
+
+
+$$\text{price} = 500 * \text{number of bedrooms}$$
+or
+$$y = f(x) = 500 * x = 500x$$ 
+
+Often, when using function notation, the multiplication sign "*" will be dropped.
+
+### Link to functions in Python
+
+Now, you'll see how mathematical functions relate to functions in Python. That's right: you can use Python functions to express how a mathematical functions! For the example above, a Python function can be written as:
 
 
 ```python
 def f(x):
-    return 3*x
+    return 500*x
 ```
+
+Or, when programming, you might want to switch back to the more intuitive names:
 
 
 ```python
-f(3)
+def price(n_bedrooms):
+    return 500*n_bedrooms
 ```
 
-
-
-
-    9
-
-
+You can see that
+- The input variable is included in the function argument.
+- The function returns the output variable.
 
 ### Evaluating functions at specific values
 
-Let's evaluate the function $f(x)$ at specific values of $x$.  So when $x = 3$, $f(x) = 3x = 3*3 = 9$.  And when $x = 4$,  $f(x) = 4*3 = 12$.  Another way of saying "when $x = 3$ is simply to say $f(3)$.  So:
-$$f(3) = 9$$
+Now, let's evaluate the function $f(x)$ at specific values of $x$. The key to understand functions is to understand that "function of $x$" basically means that the function value changes, when $x$ changes. Note that, additionally, the same input value for $x$ will always return the same output from the function! 
 
-$$f(4) = 12$$
+For example, when $x = 3$, you get that $f(x=3) = 500*3 = 1500$. Interpreting this using our example, we can say that an apartment with 3 bedrooms is rented at a price of 1500 USD/month.
 
-That looks pretty similar to how we would evaluate a function at a specific value in code.
+What about a 5-bed apartment? We can calculate this again, and we can also use our Python function to get to the result! we can use either our python function `f()` *or* `price()`
 
 
 ```python
-f(3)
+f(5)
 ```
 
 
 
 
-    9
+    2500
 
 
 
 
 ```python
-f(4)
+price(5)
 ```
 
 
 
 
-    12
+    2500
 
 
 
-So far it feels like a small leap to go from expressing a function in math to expressing a function in code.
+So far, it seems like a small step going from expressing a function in math to expressing a function in code!
+
+### Functions with multiple inputs
+
+When thinking of our previous example, it is pretty unrealistic to think that the number of bedrooms is the only factor affecting the rental price. In reality, several other factors will affect the final price. Let's assume for now that there is only one other factor affecting, the location, is affecting the house price. Say that we have information on a certain variable, being the **_location index_**, which can take a value from 0 to 10, going from considered "bad" neighborhoods to prime neigborhoods.
+
+We then say that **the _price_ is a function of the _number of bedrooms_ and the _location index_**. In mathematical terms, we generally like to express this as follows:
+
+
+$$\text{price} = f(\text{number of bedrooms, location index})$$
+or, alternatively
+
+$$ y = f(\text{x,z})$$
+
+Here, $x$ and $y$ are defined as before, and $z$ is the location index.
+
+-------------
+
+--------------------
 
 ### Unpacking  the $x$ in  $f(x)$
 
@@ -82,7 +121,7 @@ Now take a look at another function:
 
 $$ f = 3x + y$$
 
-To determine this output, we need to know more than a specific value of $x$.  We also need to know the value of $y$.  So it's no longer the case that a specific input of $x$ always returns the same output from this function.  After all, if we fill in that x = 4, then $f = 3*4 + y$, and $f$ would still vary with different $y$ values.
+To determine this output, we need to know more than a specific value of $x$.  We also need to know the value of $y$.  So it's no longer the case that a specific input of $x$ always returns the same output from this function.  After all, if we fill in that x = 4, then $f = 3*4 + y$, and $f$ would still vary with different $y$ values. 
 
 It is not just a specific input of $x$ that returns the same input, but specific inputs of $x$ *and $y$* that always return the same output.  We indicate this like so:
 
@@ -94,7 +133,7 @@ def f(x,y):
     return 3*x + y
 ```
 
-And to indicate that we are evaluating the function at specific values of $x$ and $y$, we write the following:
+And to indicate that we are evaluating the function at specific values of $x$ and $y$, we write the following: 
 
 $$ f(3,4) = 3*3 + 4 = 13$$
 
@@ -169,7 +208,7 @@ But we can really break this function into two:
 ```python
 def error(actual, expected):
     return actual - expected
-
+    
 def squared_error(actual, expected):
     return error(actual, expected)**2
 
@@ -183,7 +222,7 @@ squared_error(4, 2)
 
 
 
-In code, composing our functions from other functions helps us break down a problem.  It will be easier for us understand our code when we refer to it later on.  Similarly, functional composition in mathematics can also help break down problems and assist with readability.  Here is how we express it.  Let's represent the function `error` as $g(x, y) = x - y $, where $x$ represents actual and $y$ represents expected.
+In code, composing our functions from other functions helps us break down a problem.  It will be easier for us understand our code when we refer to it later on.  Similarly, functional composition in mathematics can also help break down problems and assist with readability.  Here is how we express it.  Let's represent the function `error` as $g(x, y) = x - y $, where $x$ represents actual and $y$ represents expected. 
 
 $$g(x, y) = x - y  $$
 
@@ -199,7 +238,7 @@ $$z(x) = (3 + 4x)^2$$
 
 Now let's try to represent with functional composition.  How?  Here's one way:
 
-$$f(x) = 3 + 4x $$
+$$f(x) = 3 + 4x $$ 
 
 $$ g(f(x)) = f(x)^2 $$
 
