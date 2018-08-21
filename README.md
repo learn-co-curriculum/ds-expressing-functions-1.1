@@ -97,7 +97,7 @@ So far, it seems like a small step going from expressing a function in math to e
 
 ### Functions with multiple inputs
 
-When thinking of our previous example, it is pretty unrealistic to think that the number of bedrooms is the only factor affecting the rental price. In reality, several other factors will affect the final price. Let's assume for now that there is only one other factor affecting, the location, is affecting the house price. Say that we have information on a certain variable, being the **_location index_**, which can take a value from 0 to 10, going from considered "bad" neighborhoods to prime neigborhoods.
+When thinking of our previous example, it is pretty unrealistic to think that the number of bedrooms is the only factor affecting the rental price. In reality, several other factors will affect the final price. Let's assume for now that there is only one other factor affecting, the location, is affecting the apartment price. Say that we have information on a certain variable, being the **_location index_**, which can take a value from 0 to 10, going from considered "bad" neighborhoods to prime neigborhoods.
 
 We then say that **the _price_ is a function of the _number of bedrooms_ and the _location index_**. In mathematical terms, we generally like to express this as follows:
 
@@ -105,59 +105,58 @@ We then say that **the _price_ is a function of the _number of bedrooms_ and the
 $$\text{price} = f(\text{number of bedrooms, location index})$$
 or, alternatively
 
-$$ y = f(\text{x,z})$$
+$$ y = f(x,z)$$
 
-Here, $x$ and $y$ are defined as before, and $z$ is the location index.
+Here, $x$ and $y$ are defined as before, and $z$ is the location index. Now let's say that the rental price is given by the following expression:
+$$ f(x,z) = 500x + 20z$$
 
--------------
+To determine the rental price, we need to know more than a specific value of $x$.  We also need to know the value of $z$.  So it's no longer the case that a specific input of $x$ always returns the same output from this function.  After all, if we fill in that number of bedrooms $x = 3 $, then $f(x,z) = 500*3 + 20z$, and the rental price would still vary with different $z$ values. 
 
---------------------
-
-### Unpacking  the $x$ in  $f(x)$
-
-So the $x$ part of $f(x)$ indicates that the function produces different outputs with different values of $x$.  As our values of $x$ change, the output of the function also changes.  By describing our function as $f(x)$, or as "a function of $x$", we also indicate that the same $x$ input always returns the same output from the function.  
-
-Now take a look at another function:
-
-$$ f = 3x + y$$
-
-To determine this output, we need to know more than a specific value of $x$.  We also need to know the value of $y$.  So it's no longer the case that a specific input of $x$ always returns the same output from this function.  After all, if we fill in that x = 4, then $f = 3*4 + y$, and $f$ would still vary with different $y$ values. 
-
-It is not just a specific input of $x$ that returns the same input, but specific inputs of $x$ *and $y$* that always return the same output.  We indicate this like so:
-
-$$ f(x,y) = 3x + y$$
+Extending the previous example, this can be translated in Python as follows:
 
 
 ```python
-def f(x,y):
-    return 3*x + y
+def price(n_bedrooms, location_index):
+    return 500*n_bedrooms + 20*location_index
 ```
 
-And to indicate that we are evaluating the function at specific values of $x$ and $y$, we write the following: 
-
-$$ f(3,4) = 3*3 + 4 = 13$$
+or
 
 
 ```python
-f(3, 4)
+def f(x,z):
+    return 500*x + 20*z
 ```
-
-
-
-
-    13
-
-
 
 A function whose output depends on *multiple* variables, like $x$ and $y$, is called a **multivariable function**.
 
-#### Test your knowledge
+#### Test your knowledge part 1:
 
-Take a look at a new function.  How would we express the function:
+Based on the previous formula, what is the rental price for an apartment with 2 bedrooms and a location index of 8?
+
+$$f(x=2,z=8)= 500*2+20*8= 1160 $$
+
+or, in Python
+
+
+```python
+f(2, 8)
+```
+
+
+
+
+    1160
+
+
+
+#### Test your knowledge part 2:
+
+Take a look at a new function.  Is this a multivariable function?
 
 $$ f = 3x + 4$$
 
-Is that a multi-variable function?  Well, while the number 4 influences the output of the function, we do not need to know anything but the value of $x$ in order to determine the output of the function.  So we still would express that function as a single variable function:
+Well, while the number 4 influences the output of the function, we do not need to know anything but the value of $x$ in order to determine the output of the function.  So we still would express that function as a single variable function:
 
 $$ f(x) = 3x + 4$$
 
@@ -169,36 +168,33 @@ def f(x):
     return 3*x + 4
 ```
 
-### Unpacking  the $f$ in  $f(x)$
+### The $f$ in $f(x)$ or $f(x,z)$
 
-Now that we understand the significance of $x$ in $f(x)$ what does the $f$ mean?  Well not too much.  It just a label for a specific function.  We could easily written our previous function as:
+Now, what does the $f$ in $f(x)$ mean? $f$ is a popular way of denoting a function, but you'll come across other letters to denote functions. To name an example, we could have easily written our previous function as:
 
 $$ g(x) = 3x + 4$$
 
-You will see functions labeled differently, $f(x)$, $g(x)$, $J(x)$.  This is just a way of labeling the function, similar to how we name our functions in code.  For example, we can assign:
-
-$$ f(x) = 10x + 12 $$
-
-$$ g(x) = x + 100 $$
-
-Later on, we can reference the second function, $g(x)$, and know which function we're referring to.
+As you define new functions, a convention is to use new letters so it's easy to reference them later on. 
 
 ### Functions depending on other functions
 
-Now that we know how to label different functions, we can also take a look at what it means for functions to depend on other functions.  In code, we see this all of the time.  For example, here is a function that we have solved before.
+Now that we know how to label different functions, we can also take a look at what it means for functions to depend on other functions. 
+
+
+In code, we see this all of the time.  For example, one might want to know what the daily rental price is for an apartment, given the number of bedrooms and the location index. For simplicity, let's assume there are always 30 days in a month.
 
 
 ```python
-def squared_error(actual, expected):
-    return (actual - expected)**2
+def daily_price(n_bedrooms, location_index):
+    return (500*n_bedrooms + 20*location_index)/30
 
-squared_error(4, 2)
+daily_price(2, 8)
 ```
 
 
 
 
-    4
+    38.666666666666664
 
 
 
@@ -206,39 +202,39 @@ But we can really break this function into two:
 
 
 ```python
-def error(actual, expected):
-    return actual - expected
+def price(n_bedrooms, location_index):
+    return 500*n_bedrooms + 20*location_index
     
-def squared_error(actual, expected):
-    return error(actual, expected)**2
+def daily_price(n_bedrooms, location_index):
+    return price(n_bedrooms, location_index)/30
 
-squared_error(4, 2)
+daily_price(2, 8)
 ```
 
 
 
 
-    4
+    38.666666666666664
 
 
 
-In code, composing our functions from other functions helps us break down a problem.  It will be easier for us understand our code when we refer to it later on.  Similarly, functional composition in mathematics can also help break down problems and assist with readability.  Here is how we express it.  Let's represent the function `error` as $g(x, y) = x - y $, where $x$ represents actual and $y$ represents expected. 
+Both when using code and in mathematics, functional composition can help break down problems and assist with readability. As seen before, let's represent the function `price` as 
 
-$$g(x, y) = x - y  $$
+$$ f(x,z) = 500x + 20z$$
 
 Now we can represent squared error as the following.
 
-$$ f(g(x, y)) = g(x, y) ^2 $$
+$$ g(f(x, z)) = \dfrac{f(x, z)}{30} $$
 
-Take a close look at this second function.  We are expressing that this second function, $f$, depends on $g(x, y)$ and thus also depends on $x$ and $y$.  The output of the function $f$ will vary according to a few inputs.  As we'll see soon, functional composition helps us break down some complex problems.  But really, we're just saying that to determine what $f(g(x,y))$ will output, we need to know the variables $x$ and $y$ as well as the function $g(x, y)$.  This relationship is similar to our `squared_error` function because we need to know the `error` function, as well as the arguments of `actual` and `expected`.  
+Take a close look at this second function.  We are expressing that this second function, $g$, depends on $f(x, z)$ and thus also depends on $x$ and $z$. 
 
 Let's see one more example to make sure that we have the hang of it.  Take the following function:
 
-$$z(x) = (3 + 4x)^2$$  
+$$z(x) = (3x + 4)^2$$  
 
 Now let's try to represent with functional composition.  How?  Here's one way:
 
-$$f(x) = 3 + 4x $$ 
+$$f(x) = 3x + 4 $$ 
 
 $$ g(f(x)) = f(x)^2 $$
 
